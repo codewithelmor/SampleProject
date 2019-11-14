@@ -8,7 +8,8 @@ using SampleProject.DataTransferObject.BindingModels;
 
 namespace SampleProject.API.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{v:apiVersion}/[controller]")]
     [ApiController]
     public class PersonsController : ControllerBase
     {
