@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SampleProject.API</name>
+    </assembly>
+    <members>
+        <member name="M:SampleProject.API.Controllers.PersonsController.List">
+            <summary>
+            URI: api/v1.0/persons | METHOD: GET | DESCRIPTION: List all persons
+            </summary>
+            <returns>List of all active persons with Id, FirstName, LastName, Gender fields</returns>
+        </member>
+        <member name="M:SampleProject.API.Controllers.PersonsController.Add(SampleProject.DataTransferObject.BindingModels.PersonBindingModel)">
+            <summary>
+            URI: api/v1.0/persons | METHOD: POST | BODY: { "firstName": "Elmor", "lastName": "Cabalfin", "gender": "0" } | DESCRIPTION: Add new person
+            </summary>
+            <param name="bindingModel">Body parameter for add request including FirstName, LastName and Gender</param>
+            <returns>Updated person information with Id, FirstName, LastName, Gender fields</returns>
+        </member>
+        <member name="M:SampleProject.API.Controllers.PersonsController.Update(System.String,SampleProject.DataTransferObject.BindingModels.PersonBindingModel)">
+            <summary>
+            URI: api/v1.0/persons/{personId} | METHOD: PUT | BODY: { "firstName": "Elmor", "lastName": "Cabalfin", "gender": "0" } | DESCRIPTION: Update existing person
+            </summary>
+            <param name="personId">Id of the existing person</param>
+            <param name="bindingModel">Body parameter for update request including FirstName, LastName and Gender</param>
+            <returns>Updated person information with Id, FirstName, LastName, Gender fields</returns>
+        </member>
+        <member name="M:SampleProject.API.Controllers.PersonsController.Toggle(System.String)">
+            <summary>
+            URI: api/v1.0/persons/{personId} | METHOD: PATCH | DESCRIPTION: Toggle availability of existing person
+            </summary>
+            <param name="personId">Id of the existing person</param>
+            <returns>Updated person information with Id, FirstName, LastName, Gender fields</returns>
+        </member>
+        <member name="M:SampleProject.API.Controllers.PersonsController.Delete(System.String)">
+            <summary>
+            URI: api/v1.0/persons/{personId} | METHOD: DELETE | DESCRIPTION: Delete existing person
+            </summary>
+            <param name="personId">Id of the existing person</param>
+            <returns>Updated person information with Id, FirstName, LastName, Gender fields</returns>
+        </member>
+    </members>
+</doc>

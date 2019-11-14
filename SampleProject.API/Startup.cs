@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -12,10 +14,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using SampleProject.API.Extensions.Builders;
 using SampleProject.API.Extensions.DependencyInjections;
 using SampleProject.DataAccessLayer.Application;
 using Serilog;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace SampleProject.API
 {
@@ -38,8 +42,8 @@ namespace SampleProject.API
             // Commands
             // dotnet-ef migrations add InitialMigration -p ../SampleProject.DataAccessLayer -s ../SampleProject.API
             // dotnet-ef database update
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
+            services.AddDbContext<ApplicationDbContext>(optionsAction =>
+                optionsAction.UseSqlServer(
                     connectionString: Configuration.GetConnectionString("DefaultConnection"),
                     sqlServerOptionsAction: builder => builder.MigrationsAssembly("SampleProject.DataAccessLayer")));
 
@@ -47,14 +51,36 @@ namespace SampleProject.API
 
             services.AddServiceLifetime();
 
-            services.AddApiVersioning(options =>
+            services.AddApiVersioning(setupAction =>
             {
-                options.ReportApiVersions = true;
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.DefaultApiVersion = new ApiVersion(1, 0);
+                setupAction.ReportApiVersions = true;
+                setupAction.AssumeDefaultVersionWhenUnspecified = true;
+                setupAction.DefaultApiVersion = new ApiVersion(1, 0);
             });
 
             services.AddControllers();
+
+            services.AddSwaggerGen(setupAction =>
+            {
+                setupAction.SwaggerDoc(
+                    "SampleProjectOpenAPISpecification",
+                    new OpenApiInfo()
+                    {
+                        Title = "Sample Project API",
+                        Version = "1",
+                        Description = "Guide for using the API Endpoints.",
+                        Contact = new OpenApiContact()
+                        {
+                            Email = "cabalfinelmor17@gmail.com",
+                            Name = "Elmor Cabalfin",
+                            Url = new Uri("https://github.com/beardedbrainiac")
+                        }
+                    });
+
+                var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+                setupAction.IncludeXmlComments(xmlCommentsFullPath);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,6 +104,16 @@ namespace SampleProject.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(setupAction =>
+            {
+                setupAction.SwaggerEndpoint(
+                    "/swagger/SampleProjectOpenAPISpecification/swagger.json",
+                    "Sample Project API");
+                setupAction.RoutePrefix = "";
             });
         }
     }

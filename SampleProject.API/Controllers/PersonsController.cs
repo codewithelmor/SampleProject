@@ -21,10 +21,9 @@ namespace SampleProject.API.Controllers
         }
 
         /// <summary>
-        /// api/v1.0/persons
-        /// GET
+        /// URI: api/v1.0/persons | METHOD: GET | DESCRIPTION: List all persons
         /// </summary>
-        /// <returns></returns>
+        /// <returns>List of all active persons with Id, FirstName, LastName, Gender fields</returns>
         [HttpGet("")]
         public async Task<IActionResult> List()
         {
@@ -40,12 +39,10 @@ namespace SampleProject.API.Controllers
         }
 
         /// <summary>
-        /// api/v1.0/persons
-        /// POST
-        /// { "firstName": "Elmor", "lastName": "Cabalfin", "gender": "0" }
+        /// URI: api/v1.0/persons | METHOD: POST | BODY: { "firstName": "Elmor", "lastName": "Cabalfin", "gender": "0" } | DESCRIPTION: Add new person
         /// </summary>
-        /// <param name="bindingModel"></param>
-        /// <returns></returns>
+        /// <param name="bindingModel">Body parameter for add request including FirstName, LastName and Gender</param>
+        /// <returns>Updated person information with Id, FirstName, LastName, Gender fields</returns>
         [HttpPost("")]
         [ValidateModel]
         public async Task<IActionResult> Add([FromBody] PersonBindingModel bindingModel)
@@ -67,13 +64,11 @@ namespace SampleProject.API.Controllers
         }
 
         /// <summary>
-        /// api/v1.0/persons/{personId}
-        /// PUT
-        /// { "firstName": "Elmor", "lastName": "Cabalfin", "gender": "0" }
+        /// URI: api/v1.0/persons/{personId} | METHOD: PUT | BODY: { "firstName": "Elmor", "lastName": "Cabalfin", "gender": "0" } | DESCRIPTION: Update existing person
         /// </summary>
-        /// <param name="personId"></param>
-        /// <param name="bindingModel"></param>
-        /// <returns></returns>
+        /// <param name="personId">Id of the existing person</param>
+        /// <param name="bindingModel">Body parameter for update request including FirstName, LastName and Gender</param>
+        /// <returns>Updated person information with Id, FirstName, LastName, Gender fields</returns>
         [HttpPut("{personId}")]
         [ValidateModel]
         public async Task<IActionResult> Update([FromRoute] string personId, [FromBody] PersonBindingModel bindingModel)
@@ -95,11 +90,10 @@ namespace SampleProject.API.Controllers
         }
 
         /// <summary>
-        /// api/v1.0/persons/{personId}
-        /// PATCH
+        /// URI: api/v1.0/persons/{personId} | METHOD: PATCH | DESCRIPTION: Toggle availability of existing person
         /// </summary>
-        /// <param name="personId"></param>
-        /// <returns></returns>
+        /// <param name="personId">Id of the existing person</param>
+        /// <returns>Updated person information with Id, FirstName, LastName, Gender fields</returns>
         [HttpPatch("{personId}")]
         public async Task<IActionResult> Toggle([FromRoute] string personId)
         {
@@ -115,11 +109,10 @@ namespace SampleProject.API.Controllers
         }
 
         /// <summary>
-        /// api/v1.0/persons/{personId}
-        /// DELETE
+        /// URI: api/v1.0/persons/{personId} | METHOD: DELETE | DESCRIPTION: Delete existing person
         /// </summary>
-        /// <param name="personId"></param>
-        /// <returns></returns>
+        /// <param name="personId">Id of the existing person</param>
+        /// <returns>Updated person information with Id, FirstName, LastName, Gender fields</returns>
         [HttpDelete("{personId}")]
         public async Task<IActionResult> Delete([FromRoute] string personId)
         {
