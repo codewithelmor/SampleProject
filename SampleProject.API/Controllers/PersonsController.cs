@@ -20,6 +20,11 @@ namespace SampleProject.API.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// api/v1.0/persons
+        /// GET
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("")]
         public async Task<IActionResult> List()
         {
@@ -34,6 +39,13 @@ namespace SampleProject.API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// api/v1.0/persons
+        /// POST
+        /// { "firstName": "Elmor", "lastName": "Cabalfin", "gender": "0" }
+        /// </summary>
+        /// <param name="bindingModel"></param>
+        /// <returns></returns>
         [HttpPost("")]
         [ValidateModel]
         public async Task<IActionResult> Add([FromBody] PersonBindingModel bindingModel)
@@ -54,6 +66,14 @@ namespace SampleProject.API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// api/v1.0/persons/{personId}
+        /// PUT
+        /// { "firstName": "Elmor", "lastName": "Cabalfin", "gender": "0" }
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <param name="bindingModel"></param>
+        /// <returns></returns>
         [HttpPut("{personId}")]
         [ValidateModel]
         public async Task<IActionResult> Update([FromRoute] string personId, [FromBody] PersonBindingModel bindingModel)
@@ -74,6 +94,12 @@ namespace SampleProject.API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// api/v1.0/persons/{personId}
+        /// PATCH
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <returns></returns>
         [HttpPatch("{personId}")]
         public async Task<IActionResult> Toggle([FromRoute] string personId)
         {
@@ -88,6 +114,12 @@ namespace SampleProject.API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// api/v1.0/persons/{personId}
+        /// DELETE
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <returns></returns>
         [HttpDelete("{personId}")]
         public async Task<IActionResult> Delete([FromRoute] string personId)
         {
