@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SampleProject.Common\SampleProject.Common.csproj" />
+    <ProjectReference Include="..\SampleProject.DataAccessLayer\SampleProject.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\SampleProject.DataTransferObject\SampleProject.DataTransferObject.csproj" />
+    <ProjectReference Include="..\SampleProject.DomainObject\SampleProject.DomainObject.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="MediatR" Version="7.0.0" />
+  </ItemGroup>
+
+</Project>
