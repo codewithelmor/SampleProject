@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using SampleProject.API.Extensions.Builders;
 using SampleProject.API.Extensions.DependencyInjections;
 using SampleProject.DataAccessLayer.Application;
+using Serilog;
 
 namespace SampleProject.API
 {
@@ -63,7 +64,9 @@ namespace SampleProject.API
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
+            app.UseSerilogRequestLogging();
+
             app.UseCustomExceptionHandler(logger);
 
             app.UseHttpsRedirection();
