@@ -10,8 +10,7 @@ namespace SampleProject.API.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/v{v:apiVersion}/[controller]")]
-    [ApiController]
-    public class PersonsController : ControllerBase
+    public class PersonsController : BaseController
     {
         private readonly IMediator _mediator;
 
