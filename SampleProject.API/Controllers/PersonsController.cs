@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SampleProject.API.Attributes;
 using SampleProject.BusinessLogicLayer.Mediators.PersonMediator.Commands;
 using SampleProject.BusinessLogicLayer.Mediators.PersonMediator.Queries;
 using SampleProject.DataTransferObject.BindingModels;
@@ -29,6 +30,7 @@ namespace SampleProject.API.Controllers
         }
 
         [HttpPost("")]
+        [ValidateModel]
         public async Task<IActionResult> Add([FromBody] PersonBindingModel bindingModel)
         {
             var command = new Add.Command
@@ -45,6 +47,7 @@ namespace SampleProject.API.Controllers
         }
 
         [HttpPut("{personId}")]
+        [ValidateModel]
         public async Task<IActionResult> Update([FromRoute] string personId, [FromBody] PersonBindingModel bindingModel)
         {
             var command = new Update.Command(personId)
