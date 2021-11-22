@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace SampleProject.DataAccessLayer.Repositories
 {
-    public interface IBaseRepository<TEntity, TDbContext>
+    public interface IBaseRepository<TEntity>
         where TEntity : class
-        where TDbContext : DbContext
     {
+        bool IsExisting(Expression<Func<TEntity, bool>> predicate);
+        Task<bool> IsExistingAsync(Expression<Func<TEntity, bool>> predicate);
+        bool IsEmpty();
         Task<TEntity> GetAsync(dynamic id);
         TEntity Get(dynamic id);
         IQueryable<TEntity> GetAll();
@@ -24,5 +25,6 @@ namespace SampleProject.DataAccessLayer.Repositories
         IEnumerable<TEntity> UpdateRange(IEnumerable<TEntity> entities);
         TEntity Remove(TEntity entity);
         IEnumerable<TEntity> RemoveRange(IEnumerable<TEntity> entities);
+        IEnumerable<TEntity> RemoveAll();
     }
 }

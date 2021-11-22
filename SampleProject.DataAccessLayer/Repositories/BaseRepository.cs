@@ -5,19 +5,32 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SampleProject.DataAccessLayer.UnitOfWorks;
-using SampleProject.DomainObject;
 
 namespace SampleProject.DataAccessLayer.Repositories
 {
-    public class BaseRepository<TEntity, TDbContext> : IBaseRepository<TEntity, TDbContext> 
-        where TEntity : BaseEntity 
-        where TDbContext : DbContext
+    public class BaseRepository<TEntity> : IBaseRepository<TEntity> 
+        where TEntity : class
     {
         protected readonly DbSet<TEntity> Entities;
 
-        public BaseRepository(IUnitOfWork<TDbContext> unitOfWork)
+        public BaseRepository(IUnitOfWork<DbContext> unitOfWork)
         {
             Entities = unitOfWork.GetDbContext().Set<TEntity>();
+        }
+
+        public bool IsExisting(Expression<Func<TEntity, bool>> predicate)
+        {
+            return Entities.SingleOrDefault(predicate) != null;
+        }
+
+        public async Task<bool> IsExistingAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await Entities.SingleOrDefaultAsync(predicate) != null;
+        }
+
+        public bool IsEmpty()
+        {
+            return !Entities.Any();
         }
 
         public async Task<TEntity> GetAsync(dynamic id)
@@ -89,6 +102,13 @@ namespace SampleProject.DataAccessLayer.Repositories
         public IEnumerable<TEntity> RemoveRange(IEnumerable<TEntity> entities)
         {
             var removeRange = entities as TEntity[] ?? entities.ToArray();
+            Entities.RemoveRange(removeRange);
+            return removeRange;
+        }
+
+        public IEnumerable<TEntity> RemoveAll()
+        {
+            var removeRange = Entities.ToArray();
             Entities.RemoveRange(removeRange);
             return removeRange;
         }
